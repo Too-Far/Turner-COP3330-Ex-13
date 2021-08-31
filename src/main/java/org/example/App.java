@@ -24,10 +24,6 @@ public class App
     {
         DecimalFormat df = new DecimalFormat("#.##");
 
-        System.out.println("P" + p);
-        System.out.println("R " + r);
-        System.out.println("T " + t );
-        System.out.println("N " + n);
         double total = p * (Math.pow((1 + r / 100), t));
         total = Float.parseFloat(df.format(total));
 
