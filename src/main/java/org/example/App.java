@@ -8,42 +8,53 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class App
 {
-    public static void compileMessage(Map<String, Float> values)
+    public static void compileMessage(float p, double r, int t, int n, double total)
     {
-        System.out.println("After " + values.get("years") + " years at " + values.get("rate")
-                + "%, the investment will be worth $"+ Math.round(values.get("totalValue")));
+        System.out.println(
+                "$"+ p + " invested at " + r +"% for " + t + " years compounded " + n + " times per year is $"
+                + total
+        );
     }
 
-    public static void calculateInterest(Map<String, Float> values)
+    public static void calculateInterest(float p, double r, int t, int n)
     {
         DecimalFormat df = new DecimalFormat("#.##");
-        Float total = values.get("principal") * (1 + (values.get("rate") / 100) * values.get("years"));
 
-        values.put("totalValue", Float.valueOf(df.format(total)));
-        compileMessage(values);
+        System.out.println("P" + p);
+        System.out.println("R " + r);
+        System.out.println("T " + t );
+        System.out.println("N " + n);
+        double total = p * (Math.pow((1 + r / 100), t));
+        total = Float.parseFloat(df.format(total));
+
+        compileMessage(p, r, t, n, total);
     }
 
     public static void getUserInput() throws IOException {
         DecimalFormat df = new DecimalFormat("#.##");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Map<String, Float> values = new HashMap<>();
+        float p;
+        int t;
+        double r;
+        int n;
 
-        System.out.println("Enter the principal: ");
-        values.put("principal", Float.valueOf(df.format(Float.parseFloat(reader.readLine()))));
+        System.out.println("What is the principal amount? ");
+        p = Float.parseFloat(df.format(Float.parseFloat(reader.readLine())));
 
-        System.out.println("Enter the rate of interest: ");
-        float rate = Float.parseFloat(df.format(Float.parseFloat(reader.readLine())));
-        values.put("rate", Float.parseFloat(df.format(rate)));
+        System.out.println("What is the rate? ");
+        r = Double.parseDouble(reader.readLine());
 
-        System.out.println("Enter the number of years");
-        values.put("years", Float.valueOf(df.format(Float.parseFloat(reader.readLine()))));
+        System.out.println("What is the number of years? ");
+        t = Integer.parseInt(reader.readLine());
 
-        calculateInterest(values);
+        System.out.println("What is the number of times the interest is compounded per year? ");
+        n = Integer.parseInt(reader.readLine());
+
+        calculateInterest(p, r, t, n);
     }
 
     public static void main( String[] args ) throws IOException {
